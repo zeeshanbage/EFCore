@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Controllers;
@@ -11,9 +12,10 @@ using webapi.Controllers;
 namespace webapi.Migrations
 {
     [DbContext(typeof(PostgresqlDbContext))]
-    partial class PostgresqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220224141214_updateProductstock_datatype")]
+    partial class updateProductstock_datatype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,11 +32,11 @@ namespace webapi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderID"));
 
-                    b.Property<int>("Address_Id")
-                        .HasColumnType("integer");
-
                     b.Property<double>("Amount")
                         .HasColumnType("double precision");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("Date")
                         .HasColumnType("timestamp with time zone");
@@ -45,14 +47,17 @@ namespace webapi.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                    b.Property<string>("ShipAddress")
+                        .HasColumnType("text");
 
                     b.Property<string>("TrackingNumber")
                         .HasColumnType("text");
 
                     b.Property<int>("UserID")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Zip")
+                        .HasColumnType("text");
 
                     b.HasKey("OrderID");
 
@@ -68,20 +73,24 @@ namespace webapi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Firstname")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Lastname")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("RegistrationDate")
                         .HasColumnType("timestamp with time zone");
@@ -102,7 +111,7 @@ namespace webapi.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -117,33 +126,6 @@ namespace webapi.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("webapi.Models.Address", b =>
-                {
-                    b.Property<int>("Address_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Address_Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ShipAddress")
-                        .HasColumnType("text");
-
-                    b.Property<string>("State")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Zip")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
-
-                    b.HasKey("Address_Id");
-
-                    b.ToTable("Addresses");
                 });
 #pragma warning restore 612, 618
         }
